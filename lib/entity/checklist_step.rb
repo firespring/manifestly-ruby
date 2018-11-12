@@ -39,14 +39,14 @@ module Manifestly
         super(data)
       end
 
+      # Header step needs to always be a boolean (even if not set)
+      def header_step # rubocop:disable DuplicateMethods
+        @header_step || false
+      end
+
       # Always convert to a boolean
       def header_step=(value)
         @header_step = (value.to_s == 'true')
-      end
-
-      # Header step needs to always be a boolean (even if not set)
-      def header_step
-        @header_step || false
       end
 
       def self.path

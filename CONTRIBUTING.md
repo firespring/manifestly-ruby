@@ -2,7 +2,7 @@
 
 This project and everyone participating in it is governed by the [Firespring Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [support@firespring.com](mailto:support@firespring.com).
 
-## How to contribute to [manifestly-ruby](https://github.com/firespring/manifestly-ruby)
+## How to contribute
 
 #### **Did you find a bug?**
 
@@ -12,6 +12,34 @@ This project and everyone participating in it is governed by the [Firespring Cod
 
 #### **Did you write a patch that fixes a bug?**
 
-* Open a new GitHub pull request with the patch.
+Pull requests are always appreciated.
 
-* Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
+To get started contributing, fork and clone the repo:
+
+```
+git clone git@github.com:your-username/manifestly-ruby.git
+```
+
+Install development Gems:
+
+```
+bundle install
+```
+
+Make your code changes.
+
+Make sure that your changes do not break any existing tests:
+
+```
+rspec spec/unit
+```
+
+Pull requests **will not be accepted** for any additional functionality without adding accompanying tests. Moreover, the repository contains a configuration for [Rubocop](https://github.com/bbatsov/rubocop). Pull requests will also not be accepted that do not pass the rubocop style-check. To check this simply run:
+
+```
+rubocop
+```
+
+Open a new GitHub pull request for the patch.
+
+Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.

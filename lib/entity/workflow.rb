@@ -25,16 +25,16 @@ module Manifestly
         create
       end
 
-      def steps=(values)
-        @steps = Array(values).map { |it| WorkflowStep.new(self, it) }
-      end
-
-      def steps
+      def steps # rubocop:disable DuplicateMethods
         return @steps if @steps
 
         # If you are trying to get the steps on a workflow returned by the `list` functionality,
         @steps = self.class.get(id).steps if id
         @steps ||= []
+      end
+
+      def steps=(values)
+        @steps = Array(values).map { |it| WorkflowStep.new(self, it) }
       end
 
       def tag_list=(values)

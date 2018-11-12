@@ -1,0 +1,33 @@
+# This is the configuration used to check the rubocop source code.
+inherit_from: #{RUBOCOP_HOME}/config/default.yml
+
+AllCops:
+  TargetRubyVersion: 2.4
+
+  Exclude:
+    - 'spec/**/*'
+    - 'spec_integration/**/*'
+
+MethodLength:
+  Max: 20
+
+LineLength:
+  Max: 150
+
+LeadingCommentSpace:
+  Enabled: false
+
+CommentAnnotation:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
