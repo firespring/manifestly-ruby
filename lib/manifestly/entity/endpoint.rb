@@ -1,4 +1,4 @@
-require 'entity/base'
+require_relative 'base'
 require 'json'
 
 module Manifestly

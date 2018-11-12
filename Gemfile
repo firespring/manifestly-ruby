@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Specify your gem's dependencies in manifestly.gemspec
+gemspec
+
 gem 'faraday'
 
 group :development, :test do

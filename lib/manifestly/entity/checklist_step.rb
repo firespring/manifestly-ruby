@@ -1,4 +1,4 @@
-require 'entity/endpoint'
+require_relative 'endpoint'
 require 'date'
 
 module Manifestly
