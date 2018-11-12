@@ -28,6 +28,20 @@ describe Manifestly::Entity::Workflow do
       expect(instance.title).to eq title
     end
 
+    context 'with steps' do
+      let(:instance) { create(:workflow, title: title, steps: [{title: step_title}]) }
+      let(:step_title) { random }
+
+      it 'creates the steps' do
+        subject
+        expect(instance.steps.first.title).to eq step_title
+
+        # Get a clean object just to make sure
+        remote_instance = described_class.get(instance.id)
+        expect(remote_instance.steps.first.title).to eq step_title
+      end
+    end
+
     context 'with invalid keys' do
       let(:instance) { create(:workflow, invalid_key => title) }
       let(:invalid_key) { random }
