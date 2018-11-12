@@ -21,6 +21,50 @@ describe Manifestly::Entity::Workflow do
     end
   end
 
+  describe '.steps' do
+    subject { instance.steps }
+
+    before :each do
+      instance.instance_variable_set(:@steps, starting_steps)
+    end
+
+    context '@steps is already set' do
+      let(:starting_steps) { random }
+
+      it 'returns the steps' do
+        expect(subject).to eq starting_steps
+      end
+    end
+
+    context '@steps is not set' do
+      let(:starting_steps) { nil }
+
+      before :each do
+        allow(instance).to receive(:id).and_return(id)
+      end
+
+      context 'id is set' do
+        let(:id) { random }
+
+        it 'calls get and sets the steps to the result' do
+          result = Object.new
+          steps = random
+          expect(described_class).to receive(:get).with(id).and_return(result)
+          expect(result).to receive(:steps).and_return(steps)
+          expect(subject).to eq steps
+        end
+      end
+
+      context 'id is not set' do
+        let(:id) { nil }
+
+        it 'sets steps to an empty array' do
+          expect(subject).to eq []
+        end
+      end
+    end
+  end
+
   describe '.steps=' do
     subject { instance.steps = steps }
 
