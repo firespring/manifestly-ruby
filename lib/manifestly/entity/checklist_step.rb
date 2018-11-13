@@ -60,7 +60,6 @@ module Manifestly
       end
 
       def complete
-        puts "#{@parent.path}/#{@parent.id}/#{path}/#{id}/complete"
         client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/complete")
         @parent.instance_variable_set(:@steps, nil)
         nil
@@ -103,7 +102,6 @@ module Manifestly
       end
 
       def assign(user_id)
-        puts "CALLING [ #{@parent.path}/#{@parent.id}/#{path}/#{id}/assign ] with {assignee_user_id: #{user_id}}"
         client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/assign", params: {assignee_user_id: user_id})
         @parent.instance_variable_set(:@steps, nil)
         nil

@@ -3,9 +3,7 @@ FactoryBot.define do
     skip_create
 
     initialize_with do
-      workflow = attributes[:workflow]
-      other_attributes = attributes.select { |k, _| k != :workflow }
-      new(workflow, other_attributes)
+      new(attributes)
     end
 
     account_id { Faker::Number.number(8) }

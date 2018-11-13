@@ -75,8 +75,8 @@ title = 'Test Workflow with steps'
 workflows = Manifestly::Entity::Workflow.list
 workflow = workflows.find { |it| it.title == title }
 
-data = {title: "Test Run", users: [my_user.id]}
-checklist_run = Manifestly::Entity::ChecklistRun.new(workflow, data).create
+data = {title: "Test Run", checklist_id: workflow.id, users: [my_user.id]}
+checklist_run = Manifestly::Entity::ChecklistRun.new(data).create
 ```
 
 You may complete a checklist step by calling the corresponding method on the step object. Currently you must either be a participant on the run or assigned to the step in order to complete it.
