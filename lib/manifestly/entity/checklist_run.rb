@@ -25,6 +25,13 @@ module Manifestly
       attr_reader :users
       attr_accessor :origin
 
+      def initialize(workflow, data = {})
+        raise 'invalid workflow' unless workflow.is_a?(Workflow)
+        data.merge!(checklist_id: workflow.id)
+
+        super(data)
+      end
+
       def self.path
         'runs'
       end
