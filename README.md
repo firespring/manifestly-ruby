@@ -1,4 +1,6 @@
 # Manifest.ly Ruby Client
+[![Gem Version](https://badge.fury.io/rb/manifestly-client.svg)](https://badge.fury.io/rb/manifestly-client)
+[![Build Status](https://api.travis-ci.org/firespring/manifestly-ruby.svg?branch=master)](https://travis-ci.org/firespring/manifestly-ruby)
 
 A Ruby client that enables quick and easy interactions with the Manifest.ly api.
 
