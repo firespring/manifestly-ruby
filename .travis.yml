@@ -12,5 +12,11 @@ deploy:
     file: manifestly-client-*.gem
     on:
       tags: true
-      rvm: 2.4
+      repo: firespring/manifestly-ruby
+  - provider: rubygems
+    api_key:
+      secure: FRUmy4P70d/oNd4Kom5af5NJ+6bqf4fJUrVZJGU1j+j5GjNNUTVsXdN+FU3nRgiukGxplYl48/RMDnfmEAkgLtF21lKp2f081LOuJ1PaaO3UquNIUULYrrxSu+zWHfdx6B9IZKVVxMmX1y+gb1z8TxhNpkZsfeu+uo3kjyESX4NHYxLSmPsjMhTnxnzspZ996PudDSrw4IGwWDkQ6Tkcn0mL0EhTUjmL6/HGJ+0U0vCh3GMbTw8jYcp76nUjn6mc1nmJ2HebnkZVKchoWOWwH7wOBmY8tDZZqohE0XJsOTGBf3ogZlZJCI/NmvlfP0DWuSPER92/4ew7wKeOIxHGwPXNtG4s7ttMGiR2d0XeIrT2OLj++5nNo2dGX9WcWtOq3605Eu9lyY7aT8aQLqO+jR1lV2FfNnh2Uw/SnKjYUAF4k36/D0MFS1dW8y/FqsA0U++M1Vo6dWxqnmQdhyFRiH+6kJOVIq1peZiXWhPqY+soLk5iS7M8AEg1yBRkfBFYjHETSkQJqVWZ6khabRtPdQe22kmc9VqbhksU6dT6Hq4gwEoVpzGWv4IBrHawMwO4sY41Is6fL1R9ypFCdqtH4ZAtb33TC1HFzD6vrPciVXRrcuuZY4pKHtOK/fnw1Va2zYmREmTGi71jNN9oj7ItyxCXCl3pu53cScS6w7cYxbY=
+    gem: manifestly-client
+    on:
+      tags: true
       repo: firespring/manifestly-ruby
