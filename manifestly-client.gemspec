@@ -2,7 +2,7 @@ $LOAD_PATH.unshift("#{__dir__}/lib")
 require 'manifestly/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'manifestly'
+  spec.name          = 'manifestly-client'
   spec.version       = Manifestly::VERSION
   spec.licenses      = ['Apache-2.0']
   spec.authors       = ['Firespring']

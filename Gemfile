@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in manifestly.gemspec
 gemspec
 
 group :development, :test do

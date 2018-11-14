@@ -9,7 +9,7 @@ A Ruby client that enables quick and easy interactions with the Manifest.ly api.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'manifestly'
+gem 'manifestly-client'
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install manifestly
+    $ gem install manifestly-client
 
 ### Basic Usage
 
