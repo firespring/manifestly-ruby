@@ -5,14 +5,6 @@ script:
   - bundle exec rspec spec/unit
   - bundle exec rubocop
 deploy:
-  - provider: releases
-    api_key:
-      secure: xg82SFFS5Vd99DV6F+9O81Y1yQL/7VMPlSQOMWLY8ZNFkoUsimdKMqNFVuLx2quy7Ui1CtXS4SEb1bdLo+JmmV5Wlrzwjx37l+WMHz3znng3V3UiLnTKlyeKaXFr1meKaFFltdN/p2dTSPaMamw0sbFk+ZvdT1AelFT0lHIouans/WydTOCiUURZ4qrVAUbaC63dV5vWC+7Qo0F9wkRSrXdpbF82xxJF2bH1ZCLZrmAgFkVjSbGZAJReMcfAbZB6Y59J+dKiXF31ycH8upkkbp7VHyA7b0F1/RZKfEnJ3kOs5N1wPwQF32esCe5WSaziqWKgNUpXbYFcvFliTrYq52PbUiwc1BvJnWFLuIMqZe4Av0McmYcJ561b+hnCm6/cPuCrnuYajyoPArbI6ir5JUEgzRl3nSF+T/sQph7iMX1j4LnotgTFRO3Erm10oRA6Z8AEwMEIzW38WdGgEpBt7EaQZ4ANk2PNBF7UXpVM26SilJc+2YpROcVVpMPR+6WuMUSamuLGTNc5juMemnKGpeNWIkEL1x0weztuENvwJlwyDprRfzVjnHxgQAJEUrTf5alyKkbnPBa0iZoqF/vCDoaG5utvWG7ct91pJfWKbxZt7rYzNRYBGwR8dJbq/H8eXie70J5izzwqz5Nyk2nWPadnVg8onpWGg0OUWo/lffw=
-    file_glob: true
-    file: manifestly-client-*.gem
-    on:
-      tags: true
-      repo: firespring/manifestly-ruby
   - provider: rubygems
     api_key:
       secure: FRUmy4P70d/oNd4Kom5af5NJ+6bqf4fJUrVZJGU1j+j5GjNNUTVsXdN+FU3nRgiukGxplYl48/RMDnfmEAkgLtF21lKp2f081LOuJ1PaaO3UquNIUULYrrxSu+zWHfdx6B9IZKVVxMmX1y+gb1z8TxhNpkZsfeu+uo3kjyESX4NHYxLSmPsjMhTnxnzspZ996PudDSrw4IGwWDkQ6Tkcn0mL0EhTUjmL6/HGJ+0U0vCh3GMbTw8jYcp76nUjn6mc1nmJ2HebnkZVKchoWOWwH7wOBmY8tDZZqohE0XJsOTGBf3ogZlZJCI/NmvlfP0DWuSPER92/4ew7wKeOIxHGwPXNtG4s7ttMGiR2d0XeIrT2OLj++5nNo2dGX9WcWtOq3605Eu9lyY7aT8aQLqO+jR1lV2FfNnh2Uw/SnKjYUAF4k36/D0MFS1dW8y/FqsA0U++M1Vo6dWxqnmQdhyFRiH+6kJOVIq1peZiXWhPqY+soLk5iS7M8AEg1yBRkfBFYjHETSkQJqVWZ6khabRtPdQe22kmc9VqbhksU6dT6Hq4gwEoVpzGWv4IBrHawMwO4sY41Is6fL1R9ypFCdqtH4ZAtb33TC1HFzD6vrPciVXRrcuuZY4pKHtOK/fnw1Va2zYmREmTGi71jNN9oj7ItyxCXCl3pu53cScS6w7cYxbY=
