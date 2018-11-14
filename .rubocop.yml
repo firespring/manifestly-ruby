@@ -5,8 +5,8 @@ AllCops:
   TargetRubyVersion: 2.4
 
   Exclude:
+    - 'vendor/**/*'
     - 'spec/**/*'
-    - 'spec_integration/**/*'
 
 MethodLength:
   Max: 20
