@@ -15,8 +15,8 @@ module Manifestly
       attr_reader :tag_list
       attr_accessor :title
 
-      def self.path
-        'checklists'
+      def self.endpoint_target
+        :checklists
       end
 
       # Workflows use an 'upsert' methodology so the create and update routes are shared.
@@ -28,8 +28,7 @@ module Manifestly
       def steps # rubocop:disable DuplicateMethods
         return @steps if @steps
 
-        # If you are trying to get the steps on a workflow returned by the `list` functionality,
-        @steps = self.class.get(id).steps if id
+        @steps = Manifestly::Entity::WorkflowStep.list(self) if id
         @steps ||= []
       end
 

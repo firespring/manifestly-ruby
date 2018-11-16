@@ -36,14 +36,14 @@ puts Manifestly::Entity::Workflow.list.inspect
 
 You may create a new workflow by passing a hash of data to the Workflow constructor and invoking the `create` method. Some internal fields (like `id`) will be injected back in to the object after it is created.
 ```ruby
-data = {title: 'Test Workflow'}
+data = {title: 'Test Workflow', external_id: 'abc123'}
 workflow = Manifestly::Entity::Workflow.new(data).create
 workflow.create
 ```
 
 If you specify an `external_id` for a local reference, Manifest.ly will use an `upsert` methodology (if the workflow does not exist it will be created - otherwise it will be updated). This effectively means that create/update/save function identically for workflows.
 ```ruby
-data = {title: 'Test Workflow with External Id', external_id: 'abc123'}
+data = {title: 'Test Workflow Upsert', external_id: 'def456'}
 workflow = Manifestly::Entity::Workflow.new(data).create
 
 workflow.title = "#{workflow.title} (updated)"
@@ -52,7 +52,7 @@ workflow.create
 
 You may delete a workflow if you specified an external_id when creating it.
 ```ruby
-data = {title: 'Test Workflow Delete', external_id: 'def456'}
+data = {title: 'Test Workflow Delete', external_id: 'ghi789'}
 workflow = Manifestly::Entity::Workflow.new(data).create
 workflow.delete
 ```
@@ -61,7 +61,7 @@ workflow.delete
 
 Steps may be passed in when creating a workflow via the steps field.
 ```ruby
-data = {title: 'Test Workflow with steps', external_id: 'ghi789', steps: [{title: 'Step One'}]}
+data = {title: 'Test Workflow with steps', external_id: 'jkl012', steps: [{title: 'Step One'}]}
 workflow = Manifestly::Entity::Workflow.new(data)
 workflow.create
 ```
@@ -73,11 +73,10 @@ You may start a new checklist run by passing a hash of data to the ChecklistRun 
 my_email_address = 'john.smith@foo.bar'
 my_user = Manifestly::Entity::User.list.find { |it| it.email == my_email_address }
 
-title = 'Test Workflow with steps'
-workflows = Manifestly::Entity::Workflow.list
-workflow = workflows.find { |it| it.title == title }
+data = {title: 'Test Workflow for checklist run', external_id: 'mno345', steps: [{title: 'Step One'}]}
+workflow = Manifestly::Entity::Workflow.new(data).create
 
-data = {title: "Test Run", checklist_id: workflow.id, users: [my_user.id]}
+data = {title: 'Test Run', checklist_id: workflow.id, users: [my_user.id]}
 checklist_run = Manifestly::Entity::ChecklistRun.new(data).create
 ```
 
@@ -86,11 +85,14 @@ You may complete a checklist step by calling the corresponding method on the ste
 my_email_address = 'john.smith@foo.bar'
 my_user = Manifestly::Entity::User.list.find { |it| it.email == my_email_address }
 
-checklist = Manifestly::Entity::ChecklistRun.list(title: 'Test Run', status: :started).first
-step = checklist.steps.first
+data = {title: 'Test Workflow for checklist run step complete', external_id: 'pqr678', steps: [{title: 'Step One'}]}
+workflow = Manifestly::Entity::Workflow.new(data).create
 
-step.assign(my_user.id)
-step.complete
+data = {title: 'Test Run step complete', checklist_id: workflow.id, users: [my_user.id]}
+checklist_run = Manifestly::Entity::ChecklistRun.new(data).create
+
+checklist_run.steps.first.assign(my_user.id)
+checklist_run.steps.first.complete
 ```
 
 ## Supported Ruby Versions

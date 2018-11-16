@@ -3,7 +3,7 @@ require 'date'
 
 module Manifestly
   module Entity
-    class ChecklistStep < Endpoint
+    class ChecklistRunStep < ChildEndpoint
       attr_accessor :id
       attr_accessor :assignee_avatar_url
       attr_accessor :assignee_id
@@ -32,11 +32,12 @@ module Manifestly
       invalid_method(:save)
       invalid_method(:delete)
 
-      def initialize(run, data = {})
-        raise 'invalid checklist run' unless run.is_a?(ChecklistRun)
+      def self.parent_class
+        ChecklistRun
+      end
 
-        @parent = run
-        super(data)
+      def self.endpoint_target
+        :run_steps
       end
 
       # Header step needs to always be a boolean (even if not set)
@@ -49,60 +50,50 @@ module Manifestly
         @header_step = (value.to_s == 'true')
       end
 
-      def self.path
-        'run_steps'
-      end
-
-      def self.list(run)
-        response = client.get("#{run.path}/#{run.id}/#{path}")
-        json_entities = JSON.parse(response[:body], symbolize_names: true)[path.to_sym]
-        json_entities.map { |it| new(run, it) }
-      end
-
       def complete
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/complete")
+        client.post("#{location}/#{id}/complete")
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
 
       def uncomplete
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/uncomplete")
+        client.post("#{location}/#{id}/uncomplete")
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
 
       def skip
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/skip")
+        client.post("#{location}/#{id}/skip")
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
 
       def unskip
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/unskip")
+        client.post("#{location}/#{id}/unskip")
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
 
       def add_data(data)
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/data", params: {data: data})
+        client.post("#{location}/#{id}/data", params: {data: data})
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
 
       def add_picture(base_64_encoded_picture_data)
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/picture", params: {picture: base_64_encoded_picture_data})
+        client.post("#{location}/#{id}/picture", params: {picture: base_64_encoded_picture_data})
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
 
       def add_comment(comment)
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/comments", params: {comment: comment})
+        client.post("#{location}/#{id}/comments", params: {comment: comment})
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
 
       def assign(user_id)
-        client.post("#{@parent.path}/#{@parent.id}/#{path}/#{id}/assign", params: {assignee_user_id: user_id})
+        client.post("#{location}/#{id}/assign", params: {assignee_user_id: user_id})
         @parent.instance_variable_set(:@steps, nil)
         nil
       end

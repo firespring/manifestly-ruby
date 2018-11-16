@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'manifestly'
 
-describe Manifestly::Entity::ChecklistStep do
+describe Manifestly::Entity::ChecklistRunStep do
   let(:instance) { described_class.new(checklist_run, data) }
-  let(:checklist_run) { OpenStruct.new(path: run_path, id: run_id) }
-  let(:run_path) { random }
+  let(:checklist_run) { OpenStruct.new(location: run_location, id: run_id) }
+  let(:run_location) { random }
   let(:run_id) { random }
   let(:data) { {} }
 
@@ -12,20 +12,20 @@ describe Manifestly::Entity::ChecklistStep do
     allow(checklist_run).to receive(:is_a?).with(Manifestly::Entity::ChecklistRun).and_return(true)
   end
 
-  describe '.initialize' do
-    subject { instance }
-    let(:data) { {title: title} }
-    let(:title) { random }
 
-    it 'sets the attributes' do
-      expect(subject.title).to eq title
+  describe '::parent_class' do
+    subject { described_class.parent_class }
+
+    it 'returns ChecklistRun' do
+      expect(subject).to eq Manifestly::Entity::ChecklistRun
     end
+  end
 
-    context 'invalid parent class' do
-      it 'raises error' do
-        expect(checklist_run).to receive(:is_a?).with(Manifestly::Entity::ChecklistRun).and_return(false)
-        expect { subject }.to raise_error(/invalid.*checklist.*run/i)
-      end
+  describe '::endoint_target' do
+    subject { described_class.endpoint_target }
+
+    it 'returns :steps' do
+      expect(subject).to eq :run_steps
     end
   end
 
@@ -69,36 +69,6 @@ describe Manifestly::Entity::ChecklistStep do
     end
   end
 
-  describe '.path' do
-    subject { described_class.path }
-    it 'returns the path' do
-      expect(subject).to eq 'run_steps'
-    end
-  end
-
-  describe '.list' do
-    subject { described_class.list(run) }
-    let(:run) { OpenStruct.new(id: run_id, path: run_path) }
-    let(:run_path) { random }
-    let(:run_id) { random }
-    let(:step_id) { random }
-    let(:response) { {body: {described_class.path => [step_data]}.to_json} }
-    let(:step_data) { random }
-    let(:client) { Object.new }
-    let(:step_instance) { random }
-
-    before :each do
-      allow(described_class).to receive(:client).and_return(client)
-      allow(client).to receive(:get)
-    end
-
-    it 'returns an array of entities' do
-      expect(client).to receive(:get).with("#{run.path}/#{run.id}/#{described_class.path}").and_return(response)
-      expect(described_class).to receive(:new).with(run, step_data).and_return(step_instance)
-      expect(subject).to eq [step_instance]
-    end
-  end
-
   describe '.complete' do
     subject { instance.complete }
     let(:client) { Object.new }
@@ -109,7 +79,7 @@ describe Manifestly::Entity::ChecklistStep do
 
     it 'calls the complete path' do
       instance.instance_variable_set(:@steps, nil)
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/complete")
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/complete")
       subject
       expect(instance.instance_variable_get(:@steps)).to be_nil
     end
@@ -125,7 +95,7 @@ describe Manifestly::Entity::ChecklistStep do
 
     it 'calls the uncomplete path' do
       instance.instance_variable_set(:@steps, nil)
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/uncomplete")
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/uncomplete")
       subject
       expect(instance.instance_variable_get(:@steps)).to be_nil
     end
@@ -141,7 +111,7 @@ describe Manifestly::Entity::ChecklistStep do
 
     it 'calls the skip path' do
       instance.instance_variable_set(:@steps, nil)
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/skip")
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/skip")
       subject
       expect(instance.instance_variable_get(:@steps)).to be_nil
     end
@@ -157,7 +127,7 @@ describe Manifestly::Entity::ChecklistStep do
 
     it 'calls the unskip path' do
       instance.instance_variable_set(:@steps, nil)
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/unskip")
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/unskip")
       subject
       expect(instance.instance_variable_get(:@steps)).to be_nil
     end
@@ -173,7 +143,7 @@ describe Manifestly::Entity::ChecklistStep do
     end
 
     it 'calls the data path' do
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/data", params: anything)
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/data", params: anything)
       subject
     end
   end
@@ -188,7 +158,7 @@ describe Manifestly::Entity::ChecklistStep do
     end
 
     it 'calls the picture path' do
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/picture", params: anything)
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/picture", params: anything)
       subject
     end
   end
@@ -203,7 +173,7 @@ describe Manifestly::Entity::ChecklistStep do
     end
 
     it 'calls the comment path' do
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/comments", params: anything)
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/comments", params: anything)
       subject
     end
   end
@@ -218,25 +188,8 @@ describe Manifestly::Entity::ChecklistStep do
     end
 
     it 'calls the assign path' do
-      expect(client).to receive(:post).with("#{checklist_run.path}/#{checklist_run.id}/#{instance.path}/#{instance.id}/assign", params: anything)
+      expect(client).to receive(:post).with("#{instance.location}/#{instance.id}/assign", params: anything)
       subject
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

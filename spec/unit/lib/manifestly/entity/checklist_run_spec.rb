@@ -4,11 +4,11 @@ require 'manifestly'
 describe Manifestly::Entity::ChecklistRun do
   let(:instance) { described_class.new }
 
-  describe '::path' do
-    subject { described_class.path }
+  describe '::endpoint_target' do
+    subject { described_class.endpoint_target }
 
-    it 'returns the path' do
-      expect(subject).to eq "runs"
+    it 'returns the endpoint_target' do
+      expect(subject).to eq :runs
     end
   end
 
@@ -48,17 +48,45 @@ describe Manifestly::Entity::ChecklistRun do
     end
   end
 
-  describe 'steps' do
+  describe '.steps' do
     subject { instance.steps }
-    let(:steps) { [Object.new] }
 
     before :each do
-      instance.instance_variable_set(:@steps, nil)
+      instance.instance_variable_set(:@steps, starting_steps)
     end
 
-    it 'calls list' do
-      expect(Manifestly::Entity::ChecklistStep).to receive(:list).with(instance).and_return(steps)
-      expect(subject).to eq steps
+    context '@steps is already set' do
+      let(:starting_steps) { random }
+
+      it 'returns the steps' do
+        expect(subject).to eq starting_steps
+      end
+    end
+
+    context '@steps is not set' do
+      let(:starting_steps) { nil }
+
+      before :each do
+        allow(instance).to receive(:id).and_return(id)
+      end
+
+      context 'id is set' do
+        let(:id) { random }
+
+        it 'calls get and sets the steps to the result' do
+          steps = random
+          expect(Manifestly::Entity::ChecklistRunStep).to receive(:list).with(instance).and_return(steps)
+          expect(subject).to eq steps
+        end
+      end
+
+      context 'id is not set' do
+        let(:id) { nil }
+
+        it 'sets steps to an empty array' do
+          expect(subject).to eq []
+        end
+      end
     end
   end
 end

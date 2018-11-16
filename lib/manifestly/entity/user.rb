@@ -18,8 +18,8 @@ module Manifestly
       invalid_method(:save)
       invalid_method(:delete)
 
-      def self.path
-        'users'
+      def self.endpoint_target
+        :users
       end
     end
   end

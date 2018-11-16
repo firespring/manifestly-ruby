@@ -34,6 +34,17 @@ module Manifestly
       Faraday.post(path, params.to_json, headers)
     end
 
+    def put(path, params: {}, headers: {})
+      handle_request { raw_put("#{url}/#{api_version}/#{path}", params: params, headers: headers) }
+    end
+
+    private def raw_put(path, params: {}, headers: {})
+      include_api_key!(params)
+      include_json_content_type!(headers)
+      include_json_accept!(headers)
+      Faraday.put(path, params.to_json, headers)
+    end
+
     def delete(path, params: {}, headers: {})
       handle_request { raw_delete("#{url}/#{api_version}/#{path}", params: params, headers: headers) }
     end

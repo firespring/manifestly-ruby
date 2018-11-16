@@ -10,19 +10,108 @@ describe Manifestly::Entity::WorkflowStep do
     allow(workflow).to receive(:is_a?).with(Manifestly::Entity::Workflow).and_return(true)
   end
 
-  describe '.initialize' do
-    subject { instance }
-    let(:data) { {title: title} }
-    let(:title) { random }
+  describe '::parent_class' do
+    subject { described_class.parent_class }
 
-    it 'sets the attributes' do
-      expect(subject.title).to eq title
+    it 'returns Workflow' do
+      expect(subject).to eq Manifestly::Entity::Workflow
+    end
+  end
+
+  describe '::endoint_target' do
+    subject { described_class.endpoint_target }
+
+    it 'returns :steps' do
+      expect(subject).to eq :steps
+    end
+  end
+
+  describe '.content_objects' do
+    subject { instance.content_objects }
+
+    before :each do
+      instance.instance_variable_set(:@content_objects, starting_content_objects)
     end
 
-    context 'invalid parent class' do
-      it 'raises error' do
-        expect(workflow).to receive(:is_a?).with(Manifestly::Entity::Workflow).and_return(false)
-        expect { subject }.to raise_error(/invalid.*workflow/i)
+    context '@content_objects is already set' do
+      let(:starting_content_objects) { random }
+
+      it 'returns the content_objects' do
+        expect(subject).to eq starting_content_objects
+      end
+    end
+
+    context '@content_objects is not set' do
+      let(:starting_content_objects) { nil }
+
+      before :each do
+        allow(instance).to receive(:id).and_return(id)
+      end
+
+      context 'id is set' do
+        let(:id) { random }
+
+        it 'calls get and sets the content_objects to the result' do
+          content_objects = random
+          expect(Manifestly::Entity::WorkflowStepContentObject).to receive(:list).with(instance).and_return(content_objects)
+          expect(subject).to eq content_objects
+        end
+      end
+
+      context 'id is not set' do
+        let(:id) { nil }
+
+        it 'sets content_objects to an empty array' do
+          expect(subject).to eq []
+        end
+      end
+    end
+  end
+
+  describe '.content_objects=' do
+    subject { instance.content_objects = content_objects }
+
+    context 'content_objects is not an array' do
+      let(:content_objects) { Object.new }
+      let(:content_object) { Object.new }
+
+      it 'creates a content object from each item' do
+        expect(Manifestly::Entity::WorkflowStepContentObject).to receive(:new).with(instance, content_objects).and_return(content_object)
+        subject
+        expect(instance.content_objects).to eq [content_object]
+      end
+    end
+
+    context 'content_objects is an array' do
+      let(:content_objects) { [Object.new] }
+      let(:content_object) { Object.new }
+
+      it 'creates a content object from each item' do
+        expect(Manifestly::Entity::WorkflowStepContentObject).to receive(:new).with(instance, content_objects.first).and_return(content_object)
+        subject
+        expect(instance.content_objects).to eq [content_object]
+      end
+    end
+  end
+
+  describe 'header_step' do
+    subject { instance.header_step }
+
+    let(:header_step) { random }
+
+    before :each do
+      instance.instance_variable_set(:@header_step, header_step)
+    end
+
+    it 'returns the header step' do
+      expect(subject).to eq header_step
+    end
+
+    context 'when header step is nil' do
+      let(:header_step) { nil }
+
+      it 'returns false' do
+        expect(subject).to be_falsey
       end
     end
   end

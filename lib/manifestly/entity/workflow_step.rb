@@ -2,7 +2,7 @@ require_relative 'endpoint'
 
 module Manifestly
   module Entity
-    class WorkflowStep < Base
+    class WorkflowStep < ChildEndpoint
       attr_accessor :id
       attr_accessor :checklist_id
       attr_accessor :position
@@ -19,11 +19,29 @@ module Manifestly
       attr_accessor :late_at_basis
       attr_accessor :parent_step_id
 
-      def initialize(workflow, data = {})
-        raise 'invalid workflow' unless workflow.is_a?(Workflow)
+      invalid_method(:create)
+      invalid_class_method(:get)
+      invalid_method(:update)
+      invalid_method(:save)
+      invalid_method(:delete)
 
-        @parent = workflow
-        super(data)
+      def self.parent_class
+        Workflow
+      end
+
+      def self.endpoint_target
+        :steps
+      end
+
+      def content_objects
+        return @content_objects if @content_objects
+
+        @content_objects = Manifestly::Entity::WorkflowStepContentObject.list(self) if id
+        @content_objects ||= []
+      end
+
+      def content_objects=(values)
+        @content_objects = Array(values).map { |it| WorkflowStepContentObject.new(self, it) }
       end
 
       # Header step needs to always be a boolean (even if not set)

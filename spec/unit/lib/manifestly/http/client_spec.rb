@@ -81,11 +81,39 @@ describe Manifestly::Client do
     let(:params) { Object.new }
     let(:headers) { Object.new }
 
-    it 'sends the GET request' do
+    it 'sends the POST request' do
       expect(instance).to receive(:include_api_key!)
       expect(instance).to receive(:include_json_content_type!)
       expect(instance).to receive(:include_json_accept!)
       expect(Faraday).to receive(:post).with(path, params.to_json, headers)
+      subject
+    end
+  end
+
+  describe '.put' do
+    subject { instance.put(path, params: params, headers: headers) }
+    let(:path) { random }
+    let(:params) { Object.new }
+    let(:headers) { Object.new }
+
+    it 'calls handle_request and raw_put' do
+      expect(instance).to receive(:handle_request).and_yield
+      expect(instance).to receive(:raw_put).with("#{url}/#{api_version}/#{path}", params: params, headers: headers)
+      subject
+    end
+  end
+
+  describe '.raw_put' do
+    subject { instance.raw_put(path, params: params, headers: headers) }
+    let(:path) { random }
+    let(:params) { Object.new }
+    let(:headers) { Object.new }
+
+    it 'sends the PUT request' do
+      expect(instance).to receive(:include_api_key!)
+      expect(instance).to receive(:include_json_content_type!)
+      expect(instance).to receive(:include_json_accept!)
+      expect(Faraday).to receive(:put).with(path, params.to_json, headers)
       subject
     end
   end

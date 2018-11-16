@@ -4,11 +4,11 @@ require 'manifestly'
 describe Manifestly::Entity::Workflow do
   let(:instance) { described_class.new }
 
-  describe '::path' do
-    subject { described_class.path }
+  describe '::endpoint_target' do
+    subject { described_class.endpoint_target }
 
-    it 'returns the path' do
-      expect(subject).to eq "checklists"
+    it 'returns the endpoint_target' do
+      expect(subject).to eq :checklists
     end
   end
 
@@ -47,10 +47,8 @@ describe Manifestly::Entity::Workflow do
         let(:id) { random }
 
         it 'calls get and sets the steps to the result' do
-          result = Object.new
           steps = random
-          expect(described_class).to receive(:get).with(id).and_return(result)
-          expect(result).to receive(:steps).and_return(steps)
+          expect(Manifestly::Entity::WorkflowStep).to receive(:list).with(instance).and_return(steps)
           expect(subject).to eq steps
         end
       end

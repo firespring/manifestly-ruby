@@ -25,8 +25,8 @@ module Manifestly
       attr_reader :users
       attr_accessor :origin
 
-      def self.path
-        'runs'
+      def self.endpoint_target
+        :runs
       end
 
       def users=(values)
@@ -39,7 +39,10 @@ module Manifestly
       end
 
       def steps
-        @steps ||= Manifestly::Entity::ChecklistStep.list(self)
+        return @steps if @steps
+
+        @steps = Manifestly::Entity::ChecklistRunStep.list(self) if id
+        @steps ||= []
       end
     end
   end
