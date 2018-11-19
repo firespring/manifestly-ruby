@@ -37,7 +37,7 @@ puts Manifestly::Entity::Workflow.list.inspect
 You may create a new workflow by passing a hash of data to the Workflow constructor and invoking the `create` method. Some internal fields (like `id`) will be injected back in to the object after it is created.
 ```ruby
 data = {title: 'Test Workflow', external_id: 'abc123'}
-workflow = Manifestly::Entity::Workflow.new(data).create
+workflow = Manifestly::Entity::Workflow.new(data)
 workflow.create
 ```
 
