@@ -2,7 +2,7 @@ require 'faraday'
 
 module Manifestly
   class Client
-    DEFAULT_URL = 'https://manifest.ly/api'.freeze
+    DEFAULT_URL = 'https://api.manifest.ly/api'.freeze
     DEFAULT_API_VERSION = 'v1'.freeze
 
     attr_reader :url, :api_version, :api_key
