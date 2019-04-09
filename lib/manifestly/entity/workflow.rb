@@ -6,6 +6,7 @@ module Manifestly
       attr_accessor :id
       attr_accessor :account_id
       attr_accessor :business_days
+      attr_accessor :channel
       attr_accessor :description
       attr_accessor :expected_duration
       attr_accessor :expected_duration_units
