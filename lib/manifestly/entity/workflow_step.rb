@@ -18,6 +18,10 @@ module Manifestly
       attr_accessor :late_at_offset_units
       attr_accessor :late_at_basis
       attr_accessor :parent_step_id
+      attr_accessor :assignee_id
+      attr_accessor :assignee_type
+      attr_accessor :late_at_basis_step_data_setting_id
+      attr_accessor :step_data_setting
 
       invalid_method(:create)
       invalid_class_method(:get)
