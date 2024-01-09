@@ -3,27 +3,10 @@ require_relative 'endpoint'
 module Manifestly
   module Entity
     class ChecklistRun < Endpoint
-      attr_accessor :id
-      attr_accessor :account_id
-      attr_accessor :archive_url
-      attr_accessor :checklist_id
-      attr_accessor :checklist_title
-      attr_accessor :completed_at
-      attr_accessor :description
-      attr_accessor :detailed_title
-      attr_accessor :external_id
-      attr_accessor :late_at
-      attr_accessor :percent_completed
-      attr_accessor :started_at
-      attr_accessor :state
-      attr_accessor :summary
-      attr_accessor :tag_list
-      attr_accessor :title
-      attr_accessor :version
-      attr_accessor :hide_steps_from_external
-      attr_accessor :only_assigned_can_complete
+      attr_accessor :id, :account_id, :archive_url, :checklist_id, :checklist_title, :completed_at, :description, :detailed_title, :external_id,
+                    :late_at, :percent_completed, :started_at, :state, :summary, :tag_list, :title, :version, :hide_steps_from_external,
+                    :only_assigned_can_complete, :origin
       attr_reader :users
-      attr_accessor :origin
 
       def self.endpoint_target
         :runs

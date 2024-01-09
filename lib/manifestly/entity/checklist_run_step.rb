@@ -4,27 +4,10 @@ require 'date'
 module Manifestly
   module Entity
     class ChecklistRunStep < ChildEndpoint
-      attr_accessor :id
-      attr_accessor :assignee_avatar_url
-      attr_accessor :assignee_id
-      attr_accessor :assignee_name
-      attr_accessor :assignee_user_id
-      attr_accessor :assignee_simple_display_name
-      attr_accessor :completed_at
-      attr_accessor :comments
-      attr_accessor :data
-      attr_accessor :description_with_links
-      attr_accessor :run_detailed_title
+      attr_accessor :id, :assignee_avatar_url, :assignee_id, :assignee_name, :assignee_user_id, :assignee_simple_display_name, :completed_at,
+                    :comments, :data, :description_with_links, :run_detailed_title, :late_at, :position, :run_id, :skipped, :title, :user_id,
+                    :user, :picture, :run_step_data_setting
       attr_reader :header_step
-      attr_accessor :late_at
-      attr_accessor :position
-      attr_accessor :run_id
-      attr_accessor :skipped
-      attr_accessor :title
-      attr_accessor :user_id
-      attr_accessor :user
-      attr_accessor :picture
-      attr_accessor :run_step_data_setting
 
       invalid_method(:create)
       invalid_class_method(:get)
@@ -41,7 +24,7 @@ module Manifestly
       end
 
       # Header step needs to always be a boolean (even if not set)
-      def header_step # rubocop:disable DuplicateMethods
+      def header_step # rubocop:disable Lint/DuplicateMethods
         @header_step || false
       end
 
@@ -75,7 +58,7 @@ module Manifestly
       end
 
       def add_data(data)
-        client.post("#{location}/#{id}/data", params: {data: data})
+        client.post("#{location}/#{id}/data", params: {data:})
         @parent.instance_variable_set(:@steps, nil)
         nil
       end
@@ -87,7 +70,7 @@ module Manifestly
       end
 
       def add_comment(comment)
-        client.post("#{location}/#{id}/comments", params: {comment: comment})
+        client.post("#{location}/#{id}/comments", params: {comment:})
         @parent.instance_variable_set(:@steps, nil)
         nil
       end

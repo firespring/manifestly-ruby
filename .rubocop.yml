@@ -2,17 +2,20 @@
 inherit_from: #{RUBOCOP_HOME}/config/default.yml
 
 AllCops:
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.1
   NewCops: enable
   Exclude:
     - 'vendor/**/*'
     - 'spec/**/*'
 
 Metrics/MethodLength:
-  Max: 20
+  Max: 30
+
+Metrics/AbcSize:
+  Enabled: false
 
 Layout/LineLength:
-  Max: 150
+  Max: 175
 
 Layout/LeadingCommentSpace:
   Enabled: false

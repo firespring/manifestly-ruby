@@ -3,25 +3,10 @@ require_relative 'endpoint'
 module Manifestly
   module Entity
     class WorkflowStep < ChildEndpoint
-      attr_accessor :id
-      attr_accessor :checklist_id
-      attr_accessor :position
-      attr_accessor :title
-      attr_accessor :description
-      attr_accessor :description_with_links
-      attr_accessor :created_at
-      attr_accessor :updated_at
+      attr_accessor :id, :checklist_id, :position, :title, :description, :description_with_links, :created_at, :updated_at, :active, :original_id,
+                    :late_at_offset, :late_at_offset_units, :late_at_basis, :parent_step_id, :assignee_id, :assignee_type,
+                    :late_at_basis_step_data_setting_id, :step_data_setting
       attr_reader :header_step
-      attr_accessor :active
-      attr_accessor :original_id
-      attr_accessor :late_at_offset
-      attr_accessor :late_at_offset_units
-      attr_accessor :late_at_basis
-      attr_accessor :parent_step_id
-      attr_accessor :assignee_id
-      attr_accessor :assignee_type
-      attr_accessor :late_at_basis_step_data_setting_id
-      attr_accessor :step_data_setting
 
       invalid_method(:create)
       invalid_class_method(:get)
@@ -49,7 +34,7 @@ module Manifestly
       end
 
       # Header step needs to always be a boolean (even if not set)
-      def header_step # rubocop:disable DuplicateMethods
+      def header_step # rubocop:disable Lint/DuplicateMethods
         @header_step || false
       end
 

@@ -3,18 +3,9 @@ require_relative 'endpoint'
 module Manifestly
   module Entity
     class Workflow < Endpoint
-      attr_accessor :id
-      attr_accessor :account_id
-      attr_accessor :business_days
-      attr_accessor :channel
-      attr_accessor :description
-      attr_accessor :expected_duration
-      attr_accessor :expected_duration_units
-      attr_accessor :external_id
-      attr_accessor :hide_steps_from_external
-      attr_reader :steps
-      attr_reader :tag_list
-      attr_accessor :title
+      attr_accessor :id, :account_id, :business_days, :channel, :description, :expected_duration, :expected_duration_units, :external_id,
+                    :hide_steps_from_external, :title
+      attr_reader :steps, :tag_list
 
       def self.endpoint_target
         :checklists
@@ -26,7 +17,7 @@ module Manifestly
         create
       end
 
-      def steps # rubocop:disable DuplicateMethods
+      def steps # rubocop:disable Lint/DuplicateMethods
         return @steps if @steps
 
         @steps = Manifestly::Entity::WorkflowStep.list(self) if id

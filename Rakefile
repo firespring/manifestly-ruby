@@ -14,19 +14,18 @@ Dev::Git.configure do |c|
 end
 Dev::Template::Git.new
 
-#Dev::EndOfLife.config do |c|
-#  c.product_versions = [
-#    Dev::EndOfLife::ProductVersion.new('debian', '11', 'base OS version running in the container we use for test/package'),
-#    Dev::EndOfLife::ProductVersion.new('docker-engine', '23.0', 'the docker version running in the container we use for test/package'),
-#    Dev::EndOfLife::ProductVersion.new('ruby', '3.1', 'the version of ruby running in the container we use for test/package')
-#  ]
-#end
-#Dev::Template::Eol.new
+Dev::EndOfLife.config do |c|
+  c.product_versions = [
+    Dev::EndOfLife::ProductVersion.new('debian', '11', 'base OS version running in the container we use for test/package'),
+    Dev::EndOfLife::ProductVersion.new('ruby', '3.1', 'the version of ruby running in the container we use for test/package')
+  ]
+end
+Dev::Template::Eol.new
 
-#desc 'Open the project readme in a browser'
-#task :docs do
-#  Launchy.open("https://github.com/firespring/#{Dev::Git.new.info.first.name}/blob/#{Dev::Git.new.branch_name}/README.md")
-#end
+desc 'Open the project readme in a browser'
+task :docs do
+  Launchy.open("https://github.com/firespring/#{Dev::Git.new.info.first.name}/blob/#{Dev::Git.new.branch_name}/README.md")
+end
 
 namespace :docs do
   desc 'Generate yardoc and open in a browser'
@@ -35,9 +34,8 @@ namespace :docs do
   end
 end
 
-=begin
 desc 'Release new versions of the library'
-task release: %i(gem:release) do
+task release: %i[gem:release] do
   LOG.debug 'Releasing all libraries'
 end
 
@@ -64,12 +62,13 @@ module Bundler
         end
 
         desc "Build and push #{name}-#{version}.gem to #{gem_push_host}"
-        task release: %i(app:build app:audit app:lint app:test gem:clean gem:build gem:release:rubygem_push) do
+        task release: %i[client:build client:audit client:lint client:test gem:clean gem:build gem:release:rubygem_push] do
           puts 'Gem released successfully!'
         end
 
         task 'release:rubygem_push' do
-          rubygem_push(built_gem_path) if gem_push?
+          puts 'Not pushing'
+          #rubygem_push(built_gem_path) if gem_push?
         end
       end
 
@@ -78,4 +77,3 @@ module Bundler
   end
 end
 Bundler::GemHelper.install_tasks
-=end

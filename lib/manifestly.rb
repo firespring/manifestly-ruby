@@ -1,6 +1,6 @@
 LIB_DIR = File.realpath(File.dirname(__FILE__))
 $LOAD_PATH.unshift(LIB_DIR)
-Dir["#{LIB_DIR}/**/*.rb"].sort.each { |file| require file.sub("#{LIB_DIR}/", '').chomp('.rb') }
+Dir["#{LIB_DIR}/**/*.rb"].each { |file| require file.sub("#{LIB_DIR}/", '').chomp('.rb') }
 
 module Manifestly
   module DayOfTheWeek

@@ -7,14 +7,15 @@ module Manifestly
 
     attr_reader :url, :api_version, :api_key
 
-    def initialize(url: ENV['MANIFESTLY_URL'], api_version: ENV['MANIFESTLY_API_VERSION'], api_key: ENV['MANIFESTLY_API_KEY'])
+    def initialize(url: ENV.fetch('MANIFESTLY_URL', nil), api_version: ENV.fetch('MANIFESTLY_API_VERSION', nil),
+                   api_key: ENV.fetch('MANIFESTLY_API_KEY', nil))
       @url = url || DEFAULT_URL
       @api_version = api_version || DEFAULT_API_VERSION
       @api_key = api_key || raise('api key is required')
     end
 
     def get(path, params: {}, headers: {})
-      handle_request { raw_get("#{url}/#{api_version}/#{path}", params: params, headers: headers) }
+      handle_request { raw_get("#{url}/#{api_version}/#{path}", params:, headers:) }
     end
 
     private def raw_get(path, params: {}, headers: {})
@@ -24,7 +25,7 @@ module Manifestly
     end
 
     def post(path, params: {}, headers: {})
-      handle_request { raw_post("#{url}/#{api_version}/#{path}", params: params, headers: headers) }
+      handle_request { raw_post("#{url}/#{api_version}/#{path}", params:, headers:) }
     end
 
     private def raw_post(path, params: {}, headers: {})
@@ -35,7 +36,7 @@ module Manifestly
     end
 
     def put(path, params: {}, headers: {})
-      handle_request { raw_put("#{url}/#{api_version}/#{path}", params: params, headers: headers) }
+      handle_request { raw_put("#{url}/#{api_version}/#{path}", params:, headers:) }
     end
 
     private def raw_put(path, params: {}, headers: {})
@@ -46,7 +47,7 @@ module Manifestly
     end
 
     def delete(path, params: {}, headers: {})
-      handle_request { raw_delete("#{url}/#{api_version}/#{path}", params: params, headers: headers) }
+      handle_request { raw_delete("#{url}/#{api_version}/#{path}", params:, headers:) }
     end
 
     private def raw_delete(path, params: {}, headers: {})
@@ -56,7 +57,7 @@ module Manifestly
     end
 
     private def include_api_key!(params)
-      params.merge!(api_key: api_key)
+      params.merge!(api_key:)
     end
 
     private def include_json_content_type!(headers)
@@ -64,7 +65,7 @@ module Manifestly
     end
 
     private def include_json_accept!(headers)
-      headers.merge!('Accept': 'application/json')
+      headers.merge!(Accept: 'application/json')
     end
 
     private def handle_request

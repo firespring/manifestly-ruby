@@ -46,7 +46,7 @@ module Manifestly
       end
 
       def self.list(path: location, **params)
-        response = client.get(path, params: params)
+        response = client.get(path, params:)
         json_entities = JSON.parse(response[:body], symbolize_names: true)[endpoint_target]
         json_entities.map { |it| new(it) }
       end
@@ -71,7 +71,7 @@ module Manifestly
       end
 
       def delete(path: location)
-        client.delete(path, params: {external_id: external_id})
+        client.delete(path, params: {external_id:})
         nil
       end
     end
@@ -101,7 +101,7 @@ module Manifestly
       end
 
       def self.list(parent, **params)
-        response = client.get(location(parent), params: params)
+        response = client.get(location(parent), params:)
         json_entities = JSON.parse(response[:body], symbolize_names: true)[endpoint_target]
         json_entities.map { |it| new(parent, it) }
       end
