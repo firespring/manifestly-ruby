@@ -1,7 +1,7 @@
 ---
 version: '3.8'
 services:
-  app:
+  client:
     image: firespring/manifestly-client:latest
     build:
       context: .

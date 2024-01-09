@@ -3,27 +3,27 @@ inherit_from: #{RUBOCOP_HOME}/config/default.yml
 
 AllCops:
   TargetRubyVersion: 3.2
-
+  NewCops: enable
   Exclude:
     - 'vendor/**/*'
     - 'spec/**/*'
 
-MethodLength:
+Metrics/MethodLength:
   Max: 20
 
-LineLength:
+Layout/LineLength:
   Max: 150
 
-LeadingCommentSpace:
+Layout/LeadingCommentSpace:
   Enabled: false
 
-CommentAnnotation:
+Style/CommentAnnotation:
   Enabled: false
 
-Documentation:
+Docs/Documentation:
   Enabled: false
 
-SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
 Style/FrozenStringLiteralComment:
